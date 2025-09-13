@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Бесплатный AI Ассистент</title>
+    <title>AI Coder</title>
     <style>
         :root {
             --bg-primary: #0d1117;
@@ -22,7 +22,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -48,7 +47,6 @@
             }
         }
 
-        /* Header */
         .header {
             text-align: center;
             padding: 1.5rem 0;
@@ -82,7 +80,6 @@
             font-weight: bold;
         }
 
-        /* Sidebar */
         .sidebar {
             background: var(--bg-secondary);
             border-radius: 12px;
@@ -160,30 +157,7 @@
             padding-top: 1rem;
             border-top: 1px solid var(--border-color);
         }
-        
-        .api-key-section {
-            margin: 1.2rem 0;
-            display: none;
-        }
-        
-        .api-key-input {
-            width: 100%;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.8rem;
-            color: var(--text-primary);
-            font-family: inherit;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-        }
-        
-        .api-key-input:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
 
-        /* Chat Section */
         .chat-container {
             background: var(--bg-secondary);
             border-radius: 12px;
@@ -201,7 +175,6 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            -webkit-overflow-scrolling: touch;
         }
 
         .message {
@@ -224,18 +197,6 @@
             border: 1px solid var(--border-color);
             align-self: flex-start;
             border-bottom-left-radius: 4px;
-        }
-
-        .message-code {
-            background: var(--bg-primary) !important;
-            border: 1px solid var(--border-color) !important;
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            font-size: 0.85em;
-            white-space: pre-wrap;
-            overflow-x: auto;
-            padding: 0.8rem;
-            border-radius: 6px;
-            margin-top: 0.5rem;
         }
 
         .chat-input {
@@ -288,7 +249,6 @@
             cursor: not-allowed;
         }
 
-        /* Loading animation */
         .loading {
             display: flex;
             gap: 0.3rem;
@@ -311,7 +271,6 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Status indicators */
         .status {
             display: flex;
             align-items: center;
@@ -333,79 +292,6 @@
             animation: pulse 1.5s infinite;
         }
 
-        /* Mobile optimizations */
-        @media (max-width: 767px) {
-            body {
-                padding: 12px;
-            }
-            
-            .container {
-                gap: 1rem;
-            }
-            
-            .header {
-                padding: 1rem 0;
-                margin-bottom: 1rem;
-            }
-            
-            .logo {
-                font-size: 1.8rem;
-            }
-            
-            .chat-container {
-                height: 65vh;
-            }
-            
-            .message {
-                max-width: 90%;
-                font-size: 0.9rem;
-            }
-            
-            .sidebar {
-                order: 2;
-            }
-            
-            .chat-container {
-                order: 1;
-            }
-        }
-
-        /* Code syntax highlighting */
-        .code-block {
-            position: relative;
-            margin: 0.5rem 0;
-        }
-        
-        .code-language {
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 0.2rem 0.5rem;
-            font-size: 0.7rem;
-            background: var(--border-color);
-            color: var(--text-secondary);
-            border-bottom-left-radius: 4px;
-        }
-        
-        .copy-btn {
-            position: absolute;
-            bottom: 0.3rem;
-            right: 0.3rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            cursor: pointer;
-        }
-        
-        .copy-btn:hover {
-            background: var(--accent-blue);
-            color: white;
-        }
-        
-        /* Clear chat button */
         .clear-chat {
             background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
@@ -421,15 +307,6 @@
         .clear-chat:hover {
             border-color: var(--accent-red);
             color: var(--accent-red);
-        }
-        
-        a {
-            color: var(--accent-blue);
-            text-decoration: none;
-        }
-        
-        a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
@@ -448,28 +325,27 @@
             </div>
 
             <div class="model-selector">
-                <button class="model-btn active" data-model="mistralai/mistral-7b-instruct:free">
-                    🌪️ Mistral 7B
-                    <span class="model-badge">Бесплатно</span>
+                <!-- САМЫЕ УМНЫЕ БЕСПЛАТНЫЕ МОДЕЛИ -->
+                <button class="model-btn active" data-model="anthropic/claude-3-haiku">
+                    🧠 Claude 3 Haiku
+                    <span class="model-badge">Умный</span>
                 </button>
-                <button class="model-btn" data-model="google/gemma-7b-it:free">
-                    💎 Gemma 7B
-                    <span class="model-badge">Бесплатно</span>
+                <button class="model-btn" data-model="google/gemini-pro-1.5">
+                    💎 Gemini Pro 1.5
+                    <span class="model-badge">Мощный</span>
                 </button>
-                <button class="model-btn" data-model="huggingfaceh4/zephyr-7b-beta:free">
-                    🕊️ Zephyr 7B
-                    <span class="model-badge">Бесплатно</span>
+                <button class="model-btn" data-model="mistralai/mixtral-8x7b-instruct">
+                    🌪️ Mixtral 8x7B
+                    <span class="model-badge">Эксперт</span>
                 </button>
-                <button class="model-btn" data-model="openchat/openchat-7b:free">
-                    💬 OpenChat 7B
-                    <span class="model-badge">Бесплатно</span>
+                <button class="model-btn" data-model="meta-llama/llama-3-70b-instruct">
+                    🦙 Llama 3 70B
+                    <span class="model-badge">Новый</span>
                 </button>
-            </div>
-            
-            <div class="api-key-section">
-                <div class="model-info">OpenRouter API ключ:</div>
-                <input type="password" id="api-key-input" class="api-key-input" placeholder="Вставьте ваш API ключ сюда">
-                <div class="model-info">Ключ сохраняется автоматически</div>
+                <button class="model-btn" data-model="cohere/command-r-plus">
+                    🔥 Command R+
+                    <span class="model-badge">Диалоги</span>
+                </button>
             </div>
 
             <div class="stats">
@@ -477,7 +353,7 @@
                     <div class="status-dot connected"></div>
                     <span id="status-text">Готов к работе</span>
                 </div>
-                <div class="model-info" id="model-info">Текущая модель: Mistral 7B</div>
+                <div class="model-info" id="model-info">Текущая модель: Claude 3 Haiku</div>
             </div>
             
             <div class="clear-chat" id="clear-chat">
@@ -489,18 +365,13 @@
             <div class="chat-messages" id="chat-messages">
                 <div class="message assistant">
                     <strong>🚀 Добро пожаловать в AI Coder!</strong><br><br>
-                    Ваш AI-ассистент готов к работе с использованием моих API ключей:<br><br>
-                    
-                    1. Выберите модель для общения<br>
-                    2. Начните диалог!<br><br>
-                    
-                    <strong>Бесплатные модели:</strong><br>
-                    • 🌪️ <strong>Mistral 7B</strong> — мощная модель для общения и кода<br>
-                    • 💎 <strong>Gemma 7B</strong> — легкая модель от Google<br>
-                    • 🕊️ <strong>Zephyr 7B</strong> — оптимизированная для диалогов<br>
-                    • 💬 <strong>OpenChat 7B</strong> — специализирована для чатов<br><br>
-                    
-                    Начинайте общение прямо сейчас!
+                    <strong>Самые умные бесплатные модели:</strong><br>
+                    • 🧠 <strong>Claude 3 Haiku</strong> - самый интеллектуальный AI<br>
+                    • 💎 <strong>Gemini Pro 1.5</strong> - мощная модель от Google<br>
+                    • 🌪️ <strong>Mixtral 8x7B</strong> - экспертная модель 70B параметров<br>
+                    • 🦙 <strong>Llama 3 70B</strong> - новейшая разработка от Meta<br>
+                    • 🔥 <strong>Command R+</strong> - отличная для сложных диалогов<br><br>
+                    Выбери модель и начинай общение!
                 </div>
             </div>
 
@@ -519,75 +390,56 @@
         const statusText = document.getElementById('status-text');
         const modelInfo = document.getElementById('model-info');
         const clearChatBtn = document.getElementById('clear-chat');
+        const statusDot = document.querySelector('.status-dot');
 
-        let currentModel = 'mistralai/mistral-7b-instruct:free';
+        let currentModel = 'anthropic/claude-3-haiku';
         let conversationHistory = [];
-        
-        // API ключ
         const API_KEY = "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";
         
         // Инициализация
-        window.addEventListener('DOMContentLoaded', () => {
+        function init() {
             updateStatus('connected', 'Готов к работе');
             sendBtn.disabled = true;
             
             // Обработчики для кнопок моделей
             modelButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', function() {
                     modelButtons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentModel = btn.dataset.model;
-                    
-                    // Обновляем информацию о модели
-                    const modelName = btn.textContent.split(' ')[0] + ' ' + btn.textContent.split(' ')[1];
+                    this.classList.add('active');
+                    currentModel = this.dataset.model;
+                    const modelName = this.childNodes[0].textContent.trim();
                     modelInfo.textContent = `Текущая модель: ${modelName}`;
                 });
             });
-        });
-        
-        // Активация кнопки отправки
-        messageInput.addEventListener('input', function() {
-            sendBtn.disabled = !this.value.trim();
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
-        
-        // Отправка сообщения при нажатии Enter
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                if (!sendBtn.disabled) {
-                    sendMessage();
-                }
-            }
-        });
-        
-        // Отправка сообщения при клике на кнопку
-        sendBtn.addEventListener('click', sendMessage);
-        
-        // Очистка чата
-        clearChatBtn.addEventListener('click', () => {
-            chatMessages.innerHTML = `
-                <div class="message assistant">
-                    <strong>🚀 История очищена!</strong><br>
-                    Готов к новому диалогу. Выберите модель и начинайте общение.
-                </div>
-            `;
-            conversationHistory = [];
-        });
-        
-        // Функция отправки сообщения
+
+            // Очистка чата
+            clearChatBtn.addEventListener('click', () => {
+                chatMessages.innerHTML = `
+                    <div class="message assistant">
+                        <strong>🚀 История очищена!</strong><br>
+                        Готов к новому диалогу. Выберите модель и начинайте общение.
+                    </div>
+                `;
+                conversationHistory = [];
+            });
+        }
+
+        // Обновление статуса
+        function updateStatus(status, text) {
+            statusDot.className = 'status-dot ' + status;
+            statusText.textContent = text;
+        }
+
+        // Отправка сообщения
         async function sendMessage() {
             const message = messageInput.value.trim();
             if (!message) return;
-            
-            // Добавляем сообщение пользователя в чат
+
             addMessage('user', message);
             messageInput.value = '';
             sendBtn.disabled = true;
             messageInput.style.height = 'auto';
-            
-            // Показываем индикатор загрузки
+
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'loading';
             loadingDiv.innerHTML = `
@@ -597,10 +449,9 @@
             `;
             chatMessages.appendChild(loadingDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            // Добавляем сообщение в историю
+
             conversationHistory.push({ role: 'user', content: message });
-            
+
             try {
                 updateStatus('loading', 'Отправка запроса...');
                 
@@ -608,61 +459,65 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY}`
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'HTTP-Referer': window.location.href,
+                        'X-Title': 'AI Coder'
                     },
                     body: JSON.stringify({
                         model: currentModel,
                         messages: conversationHistory,
                         temperature: 0.7,
-                        max_tokens: 1000
+                        max_tokens: 2000
                     })
                 });
-                
+
                 if (!response.ok) {
-                    throw new Error(`Ошибка API: ${response.status}`);
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(`Ошибка API: ${response.status} - ${errorData.error?.message || 'Попробуйте другую модель'}`);
                 }
-                
+
                 const data = await response.json();
                 const assistantMessage = data.choices[0].message.content;
-                
-                // Удаляем индикатор загрузки
+
                 chatMessages.removeChild(loadingDiv);
-                
-                // Добавляем ответ ассистента
                 addMessage('assistant', assistantMessage);
-                
-                // Обновляем историю
                 conversationHistory.push({ role: 'assistant', content: assistantMessage });
-                
+
                 updateStatus('connected', 'Готов к работе');
-                
+
             } catch (error) {
                 chatMessages.removeChild(loadingDiv);
-                addMessage('assistant', `❌ Ошибка: ${error.message}. Проверьте API ключ и попробуйте снова.`);
+                addMessage('assistant', `❌ ${error.message}`);
                 updateStatus('disconnected', 'Ошибка соединения');
-                console.error('Error:', error);
+                console.error('API Error:', error);
             }
         }
-        
-        // Функция добавления сообщения в чат
+
+        // Добавление сообщения
         function addMessage(role, content) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${role}`;
-            
-            // Обработка кода в сообщениях
-            const formattedContent = content.replace(/```([\s\S]*?)```/g, '<div class="message-code">$1</div>');
-            messageDiv.innerHTML = formattedContent;
-            
+            messageDiv.textContent = content;
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-        
-        // Функция обновления статуса
-        function updateStatus(status, text) {
-            const statusDot = document.querySelector('.status-dot');
-            statusDot.className = 'status-dot ' + status;
-            statusText.textContent = text;
-        }
+
+        // События
+        messageInput.addEventListener('input', function() {
+            sendBtn.disabled = !this.value.trim();
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!sendBtn.disabled) sendMessage();
+            }
+        });
+
+        sendBtn.addEventListener('click', sendMessage);
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
