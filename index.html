@@ -16,8 +16,7 @@
             --accent-green: #3fb950;
             --accent-red: #f85149;
             --border-color: #30363d;
-            --gradient-primary: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            --gradient-secondary: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            --accent-orange: #ff7b47;
         }
 
         * {
@@ -33,13 +32,14 @@
             line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
-            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(29, 78, 137, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(96, 61, 150, 0.15) 0%, transparent 25%);
         }
 
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            animation: fadeIn 0.8s ease-out;
         }
 
         .header {
@@ -48,32 +48,23 @@
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 1.5rem;
             position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-primary);
-            opacity: 0.05;
-            z-index: -1;
         }
 
         .logo {
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: var(--gradient-primary);
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
             display: inline-block;
             position: relative;
-            letter-spacing: -1px;
-            animation: glow 3s infinite alternate;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         .tagline {
@@ -82,20 +73,18 @@
             margin-bottom: 0.5rem;
         }
 
-        .model-info {
-            font-size: 0.85rem;
-            color: var(--accent-blue);
-            background: rgba(88, 166, 255, 0.1);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
+        .version {
+            font-size: 0.8rem;
+            color: var(--accent-purple);
+            background: rgba(188, 140, 255, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
             display: inline-block;
-            margin-top: 0.5rem;
-            animation: pulse 2s infinite;
         }
 
         .chat-container {
             background: var(--bg-secondary);
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
@@ -113,8 +102,14 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: var(--gradient-primary);
-            opacity: 0.5;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
         }
 
         .chat-messages {
@@ -123,35 +118,44 @@
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 1rem;
             scroll-behavior: smooth;
         }
 
         .message {
             max-width: 85%;
-            padding: 1.2rem;
-            border-radius: 16px;
+            padding: 1rem;
+            border-radius: 12px;
             line-height: 1.5;
             font-size: 1rem;
             position: relative;
+            transition: transform 0.2s ease, opacity 0.3s ease;
             animation: messageAppear 0.3s ease-out;
-            transform-origin: center bottom;
+        }
+
+        @keyframes messageAppear {
+            from { 
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .message.user {
-            background: var(--gradient-primary);
+            background: var(--accent-blue);
             color: white;
             align-self: flex-end;
-            border-bottom-right-radius: 6px;
-            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.2);
+            border-bottom-right-radius: 4px;
         }
 
         .message.assistant {
             background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
             align-self: flex-start;
-            border-bottom-left-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom-left-radius: 4px;
         }
 
         .message-code {
@@ -161,22 +165,20 @@
             font-size: 0.9em;
             white-space: pre-wrap;
             overflow-x: auto;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 0.8rem;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-top: 0.5rem;
             position: relative;
         }
 
         .message-code::before {
-            content: '🖥️ Код';
+            content: '🖥️';
             position: absolute;
-            top: -10px;
-            left: 12px;
-            font-size: 0.7rem;
+            top: -12px;
+            right: 10px;
             background: var(--bg-primary);
-            padding: 0 6px;
-            color: var(--accent-blue);
-            font-weight: 500;
+            padding: 0 5px;
+            font-size: 0.8rem;
         }
 
         .chat-input {
@@ -185,33 +187,24 @@
             padding: 1.5rem;
             border-top: 1px solid var(--border-color);
             background: var(--bg-secondary);
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
             position: relative;
-        }
-
-        .chat-input::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: var(--gradient-primary);
-            opacity: 0.3;
         }
 
         .message-input {
             flex: 1;
             background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.2rem;
+            border-radius: 8px;
+            padding: 1rem 3.5rem 1rem 1rem;
             color: var(--text-primary);
             font-family: inherit;
             resize: none;
             min-height: 60px;
             max-height: 150px;
             font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .message-input:focus {
@@ -220,13 +213,46 @@
             box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
         }
 
-        .send-btn {
-            background: var(--gradient-primary);
+        .input-controls {
+            position: absolute;
+            bottom: 1.8rem;
+            right: 7.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .voice-btn {
+            background: transparent;
             border: none;
-            border-radius: 12px;
-            padding: 0 1.8rem;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .voice-btn:hover {
+            color: var(--accent-blue);
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .voice-btn.listening {
+            color: var(--accent-red);
+            animation: pulse 1.5s infinite;
+            background: rgba(248, 81, 73, 0.1);
+        }
+
+        .send-btn {
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            border: none;
+            border-radius: 8px;
+            padding: 0 1.5rem;
             color: white;
-            font-weight: 600;
+            font-weight: bold;
             cursor: pointer;
             align-self: flex-end;
             height: 60px;
@@ -236,28 +262,30 @@
             overflow: hidden;
         }
 
-        .send-btn::before {
+        .send-btn::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .send-btn:hover::before {
-            left: 100%;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.2),
+                rgba(255, 255, 255, 0)
+            );
+            transform: rotate(30deg);
+            transition: all 0.5s ease;
         }
 
         .send-btn:hover {
+            opacity: 0.9;
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(88, 166, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(88, 166, 255, 0.3);
         }
 
-        .send-btn:active {
-            transform: translateY(0);
+        .send-btn:hover::after {
+            transform: rotate(30deg) translate(10%, 10%);
         }
 
         .send-btn:disabled {
@@ -267,70 +295,20 @@
             box-shadow: none;
         }
 
-        .send-btn:disabled::before {
+        .send-btn:disabled::after {
             display: none;
-        }
-
-        .voice-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            margin-top: 1rem;
-            justify-content: center;
-        }
-
-        .voice-btn {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .voice-btn:hover {
-            border-color: var(--accent-blue);
-            transform: scale(1.05);
-        }
-
-        .voice-btn.listening {
-            background: var(--accent-red);
-            animation: pulse 1.5s infinite;
-        }
-
-        .voice-btn .icon {
-            font-size: 1.2rem;
-        }
-
-        .voice-status {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            padding: 0.5rem 1rem;
-            background: var(--bg-tertiary);
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
         }
 
         .loading {
             display: flex;
-            gap: 0.4rem;
-            padding: 1.2rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
+            gap: 0.3rem;
+            padding: 1rem;
             align-self: flex-start;
-            margin-bottom: 0.5rem;
-            animation: pulseBackground 2s infinite;
         }
 
         .loading-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: var(--accent-blue);
             border-radius: 50%;
             animation: pulse 1.5s ease-in-out infinite;
@@ -339,6 +317,11 @@
         .loading-dot:nth-child(2) { animation-delay: 0.2s; }
         .loading-dot:nth-child(3) { animation-delay: 0.4s; }
 
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
         .status {
             display: flex;
             align-items: center;
@@ -346,163 +329,182 @@
             font-size: 0.9rem;
             color: var(--text-secondary);
             justify-content: center;
-            margin-top: 1.2rem;
-            padding: 0.6rem 1rem;
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-            transition: all 0.3s ease;
-        }
-
-        .status:hover {
-            background: var(--bg-tertiary);
-            transform: translateY(-2px);
+            margin-top: 1rem;
         }
 
         .status-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
+            position: relative;
         }
 
-        .status-dot.connected { 
-            background: var(--accent-green);
-            box-shadow: 0 0 10px rgba(63, 185, 80, 0.5);
+        .status-dot::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 50%;
+            animation: radar 2s infinite;
         }
-        .status-dot.disconnected { 
-            background: var(--accent-red);
-            box-shadow: 0 0 10px rgba(248, 81, 73, 0.5);
+
+        @keyframes radar {
+            0% {
+                box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(63, 185, 80, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(63, 185, 80, 0);
+            }
         }
+
+        .status-dot.connected { background: var(--accent-green); }
+        .status-dot.connected::after { 
+            box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.7);
+            animation: radar 2s infinite;
+        }
+        
+        .status-dot.disconnected { background: var(--accent-red); }
+        .status-dot.disconnected::after { 
+            display: none; 
+        }
+        
         .status-dot.loading { 
-            background: var(--accent-blue);
-            animation: pulse 1.5s infinite;
-            box-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+            background: var(--accent-blue); 
+        }
+        .status-dot.loading::after { 
+            display: none; 
         }
 
         .clear-chat {
             background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
             color: var(--text-secondary);
-            padding: 0.8rem 1.5rem;
-            border-radius: 12px;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 1.5rem;
-            font-size: 0.95rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
             text-align: center;
             display: block;
             width: 200px;
-            margin: 1.5rem auto;
+            margin: 1rem auto;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .clear-chat::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(248, 81, 73, 0.1), transparent);
-            transition: 0.5s;
-        }
-
-        .clear-chat:hover::before {
-            left: 100%;
         }
         
         .clear-chat:hover {
             border-color: var(--accent-red);
             color: var(--accent-red);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(248, 81, 73, 0.1);
+            box-shadow: 0 5px 15px rgba(248, 81, 73, 0.1);
         }
 
-        .typing-indicator {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.5rem 0.8rem;
+        .voice-status {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             background: var(--bg-tertiary);
-            border-radius: 12px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 0.5rem;
-        }
-
-        .typing-dots {
-            display: flex;
-            gap: 0.2rem;
-            margin-left: 0.5rem;
-        }
-
-        .typing-dot {
-            width: 4px;
-            height: 4px;
-            background: var(--accent-blue);
-            border-radius: 50%;
-            animation: typingAnimation 1.4s infinite ease-in-out;
-        }
-
-        .typing-dot:nth-child(1) { animation-delay: 0s; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-        .tts-controls {
+            border: 1px solid var(--border-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .voice-status.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .voice-status.listening {
+            border-color: var(--accent-red);
+            background: rgba(248, 81, 73, 0.05);
+        }
+
+        .voice-pulse {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent-red);
+            animation: voicePulse 1.5s infinite;
+        }
+
+        @keyframes voicePulse {
+            0% {
+                transform: scale(0.8);
+                box-shadow: 0 0 0 0 rgba(248, 81, 73, 0.7);
+            }
+            70% {
+                transform: scale(1.2);
+                box-shadow: 0 0 0 10px rgba(248, 81, 73, 0);
+            }
+            100% {
+                transform: scale(0.8);
+                box-shadow: 0 0 0 0 rgba(248, 81, 73, 0);
+            }
+        }
+
+        .voice-message {
+            font-size: 0.9rem;
+        }
+
+        .tts-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             margin-top: 0.5rem;
-            justify-content: flex-start;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .tts-btn {
-            background: var(--bg-tertiary);
+            background: transparent;
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 0.4rem 0.8rem;
-            font-size: 0.8rem;
+            border-radius: 4px;
+            padding: 0.3rem 0.6rem;
             color: var(--text-secondary);
             cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
             transition: all 0.3s ease;
         }
 
         .tts-btn:hover {
-            border-color: var(--accent-blue);
             color: var(--accent-blue);
+            border-color: var(--accent-blue);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.3rem 0.6rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
         }
 
-        @keyframes messageAppear {
-            from { opacity: 0; transform: translateY(10px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1.1); }
-        }
-
-        @keyframes pulseBackground {
-            0%, 100% { background-color: var(--bg-tertiary); }
-            50% { background-color: rgba(33, 38, 45, 0.6); }
-        }
-
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px rgba(88, 166, 255, 0.3); }
-            100% { text-shadow: 0 0 15px rgba(88, 166, 255, 0.6), 0 0 30px rgba(188, 140, 255, 0.4); }
-        }
-
-        @keyframes typingAnimation {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
+        .copy-btn:hover {
+            color: var(--accent-blue);
+            border-color: var(--accent-blue);
         }
 
         @media (max-width: 768px) {
@@ -515,7 +517,7 @@
             }
             
             .logo {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
             
             .chat-container {
@@ -525,127 +527,112 @@
             .message {
                 max-width: 90%;
                 font-size: 0.95rem;
-                padding: 1rem;
             }
             
             .chat-input {
                 padding: 1rem;
             }
             
+            .input-controls {
+                right: 6.5rem;
+                bottom: 1.5rem;
+            }
+            
             .send-btn {
-                padding: 0 1.4rem;
-                height: 55px;
+                padding: 0 1.2rem;
+                height: 50px;
             }
-
-            .message-input {
-                padding: 1rem;
-            }
-
-            .voice-btn {
-                width: 45px;
-                height: 45px;
+            
+            .voice-status {
+                width: 90%;
+                text-align: center;
             }
         }
 
-        /* Специальные анимации для элементов интерфейса */
-        .floating-element {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Анимация появления элементов при загрузке */
-        .animate-on-load {
-            opacity: 0;
-            animation: fadeInUp 0.8s forwards;
-        }
-
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
-        .delay-3 { animation-delay: 0.6s; }
-
-        @keyframes fadeInUp {
+        /* Анимации для новых сообщений */
+        @keyframes slideInRight {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateX(30px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(0);
             }
         }
 
-        /* Эффект параллакса для фона */
-        .parallax-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.03;
-            background: 
-                radial-gradient(circle at 20% 30%, var(--accent-blue) 0%, transparent 30%),
-                radial-gradient(circle at 80% 70%, var(--accent-purple) 0%, transparent 30%);
-            animation: parallaxMove 20s infinite alternate;
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        @keyframes parallaxMove {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(-20px, 20px) scale(1.1); }
+        .message.user {
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .message.assistant {
+            animation: slideInLeft 0.3s ease-out;
         }
     </style>
 </head>
 <body>
-    <div class="parallax-bg"></div>
-    
     <div class="container">
-        <div class="header animate-on-load">
-            <div class="logo floating-element">COREE</div>
-            <div class="tagline animate-on-load delay-1">Продвинутый AI ассистент для кода и диалогов</div>
-            <div class="model-info animate-on-load delay-2">Gemini 1.5 Pro • Vertex AI • Голосовой режим</div>
+        <div class="header">
+            <div class="logo">COREE</div>
+            <div class="tagline">Продвинутый AI ассистент с голосовым управлением</div>
+            <div class="version">v2.5 VOICE EDITION</div>
         </div>
 
-        <div class="chat-container animate-on-load delay-2">
+        <div class="chat-container">
             <div class="chat-messages" id="chat-messages">
                 <div class="message assistant">
-                    <strong>🚀 Добро пожаловать в COREE 2.0!</strong><br><br>
-                    Я ваш профессиональный AI ассистент, использующий самые передовые модели от Google Cloud Vertex AI.<br><br>
+                    <strong>🎤 Добро пожаловать в COREE 2.5!</strong><br><br>
+                    Я ваш профессиональный AI ассистент с поддержкой голосового ввода и вывода.<br><br>
                     
-                    <strong>Мои возможности:</strong><br>
-                    • Написание и анализ кода на любых языках<br>
-                    • Глубокие содержательные диалоги на любые темы<br>
-                    • Решение сложных задач и объяснение концепций<br>
-                    • Поддержка длинного контекста разговора<br>
-                    • <strong>Голосовой ввод и вывод</strong> 🎤<br><br>
+                    <strong>Новые возможности:</strong><br>
+                    • Голосовой ввод запросов (нажмите на иконку микрофона)<br>
+                    • Голосовое воспроизведение ответов (текст в речь)<br>
+                    • Улучшенный дизайн с анимациями<br>
+                    • Поддержка длинного контекста разговора<br><br>
                     
-                    Начинайте общение — я готов помочь! Можете печатать или использовать голосовую кнопку.
+                    Начинайте общение — я готов помочь! Просто начните говорить или введите текст.
                 </div>
             </div>
 
             <div class="chat-input">
-                <textarea class="message-input" id="message-input" placeholder="Введите ваш запрос..." rows="1"></textarea>
-                <button class="send-btn" id="send-btn">➤</button>
-            </div>
-
-            <div class="voice-controls">
-                <div class="voice-btn" id="voice-btn" title="Голосовой ввод">
-                    <div class="icon">🎤</div>
+                <textarea class="message-input" id="message-input" placeholder="Введите ваш запрос или нажмите на микрофон..." rows="1"></textarea>
+                <div class="input-controls">
+                    <button class="voice-btn" id="voice-btn" title="Голосовой ввод">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    </button>
                 </div>
-                <div class="voice-status" id="voice-status">Нажмите для голосового ввода</div>
+                <button class="send-btn" id="send-btn">➤</button>
             </div>
         </div>
 
-        <div class="status animate-on-load delay-3">
+        <div class="status">
             <div class="status-dot connected"></div>
             <span id="status-text">Подключено к Vertex AI</span>
         </div>
 
-        <div class="clear-chat animate-on-load delay-3" id="clear-chat">
+        <div class="clear-chat" id="clear-chat">
             🗑️ Очистить историю
+        </div>
+
+        <div class="voice-status" id="voice-status">
+            <div class="voice-pulse" id="voice-pulse"></div>
+            <div class="voice-message" id="voice-message">Слушаю...</div>
         </div>
     </div>
 
@@ -658,9 +645,10 @@
         const statusDot = document.querySelector('.status-dot');
         const voiceBtn = document.getElementById('voice-btn');
         const voiceStatus = document.getElementById('voice-status');
+        const voiceMessage = document.getElementById('voice-message');
+        const voicePulse = document.getElementById('voice-pulse');
 
         let conversationHistory = [];
-        let isGenerating = false;
         let recognition = null;
         let isListening = false;
         let speechSynthesis = window.speechSynthesis;
@@ -689,78 +677,65 @@
                 recognition.interimResults = true;
                 recognition.lang = 'ru-RU';
 
-                recognition.onstart = function() {
+                recognition.onstart = () => {
                     isListening = true;
                     voiceBtn.classList.add('listening');
-                    voiceStatus.textContent = 'Слушаю...';
+                    voiceStatus.classList.add('active', 'listening');
+                    voiceMessage.textContent = 'Слушаю...';
                 };
 
-                recognition.onresult = function(event) {
-                    let interimTranscript = '';
-                    let finalTranscript = '';
-
+                recognition.onresult = (event) => {
+                    let transcript = '';
                     for (let i = event.resultIndex; i < event.results.length; i++) {
-                        const transcript = event.results[i][0].transcript;
                         if (event.results[i].isFinal) {
-                            finalTranscript += transcript;
+                            transcript += event.results[i][0].transcript;
                         } else {
-                            interimTranscript += transcript;
+                            transcript += event.results[i][0].transcript;
                         }
                     }
-
-                    messageInput.value = finalTranscript || interimTranscript;
-                    sendBtn.disabled = !messageInput.value.trim();
-                    voiceStatus.textContent = finalTranscript ? 'Готово' : 'Слушаю...';
+                    messageInput.value = transcript;
+                    sendBtn.disabled = !transcript.trim();
                 };
 
-                recognition.onerror = function(event) {
-                    console.error('Ошибка распознавания:', event.error);
-                    voiceStatus.textContent = 'Ошибка: ' + event.error;
-                    stopListening();
+                recognition.onerror = (event) => {
+                    console.error('Ошибка распознавания речи:', event.error);
+                    voiceMessage.textContent = `Ошибка: ${event.error}`;
+                    setTimeout(() => {
+                        voiceStatus.classList.remove('active', 'listening');
+                    }, 2000);
                 };
 
-                recognition.onend = function() {
-                    stopListening();
+                recognition.onend = () => {
+                    isListening = false;
+                    voiceBtn.classList.remove('listening');
+                    voiceStatus.classList.remove('listening');
+                    setTimeout(() => {
+                        voiceStatus.classList.remove('active');
+                    }, 1000);
                 };
+
+                voiceBtn.addEventListener('click', toggleSpeechRecognition);
             } else {
-                voiceStatus.textContent = 'Голосовой ввод не поддерживается';
-                voiceBtn.style.opacity = '0.5';
-                voiceBtn.style.cursor = 'not-allowed';
+                voiceBtn.style.display = 'none';
+                console.warn('Браузер не поддерживает распознавание речи');
             }
-
-            // Обработчик кнопки голосового ввода
-            voiceBtn.addEventListener('click', toggleListening);
 
             // Очистка чата
             clearChatBtn.addEventListener('click', () => {
-                // Анимация очистки чата
-                clearChatBtn.style.opacity = '0.7';
-                clearChatBtn.style.transform = 'scale(0.95)';
-                
-                setTimeout(() => {
-                    chatMessages.innerHTML = `
-                        <div class="message assistant">
-                            <strong>🗑️ История очищена</strong><br>
-                            Готов к новому диалогу. Задавайте ваш вопрос!
-                        </div>
-                    `;
-                    conversationHistory = [];
-                    
-                    clearChatBtn.style.opacity = '';
-                    clearChatBtn.style.transform = '';
-                }, 300);
-            });
-
-            // Добавляем анимацию при загрузке
-            document.querySelectorAll('.animate-on-load').forEach(el => {
-                el.style.animationPlayState = 'running';
+                chatMessages.innerHTML = `
+                    <div class="message assistant">
+                        <strong>🗑️ История очищена</strong><br>
+                        Готов к новому диалогу. Задавайте ваш вопрос или используйте голосовой ввод!
+                    </div>
+                `;
+                conversationHistory = [];
+                // Останавливаем любое воспроизведение речи при очистке чата
+                speechSynthesis.cancel();
             });
         }
 
-        // Управление голосовым вводом
-        function toggleListening() {
-            if (!recognition) return;
-            
+        // Переключение распознавания речи
+        function toggleSpeechRecognition() {
             if (isListening) {
                 recognition.stop();
             } else {
@@ -768,17 +743,19 @@
             }
         }
 
-        function stopListening() {
-            isListening = false;
-            voiceBtn.classList.remove('listening');
-            voiceStatus.textContent = 'Нажмите для голосового ввода';
+        // Обновление статуса
+        function updateStatus(status, text) {
+            statusDot.className = 'status-dot ' + status;
+            statusText.textContent = text;
         }
 
-        // Функция озвучивания текста
+        // Функция для озвучивания текста
         function speakText(text) {
-            if (!speechSynthesis) return;
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
             
-            // Останавливаем любое текущее воспроизведение
+            // Останавливаем предыдущее воспроизведение
             speechSynthesis.cancel();
             
             // Создаем utterance
@@ -790,42 +767,18 @@
             
             // Выбираем голос (если доступен русский)
             const voices = speechSynthesis.getVoices();
-            const russianVoice = voices.find(voice => voice.lang.includes('ru'));
+            const russianVoice = voices.find(voice => voice.lang === 'ru-RU' || voice.lang === 'ru');
+            
             if (russianVoice) {
                 utterance.voice = russianVoice;
             }
             
+            // Воспроизводим речь
             speechSynthesis.speak(utterance);
-        }
-
-        // Обновление статуса
-        function updateStatus(status, text) {
-            statusDot.className = 'status-dot ' + status;
-            statusText.textContent = text;
-        }
-
-        // Показать индикатор набора сообщения
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = 'COREE печатает <div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Скрыть индикатор набора сообщения
-        function hideTypingIndicator() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
         }
 
         // Отправка сообщения в Vertex AI
         async function sendMessage() {
-            if (isGenerating) return;
-            
             const message = messageInput.value.trim();
             if (!message) return;
 
@@ -833,19 +786,23 @@
             messageInput.value = '';
             sendBtn.disabled = true;
             messageInput.style.height = 'auto';
-            
-            isGenerating = true;
-            updateStatus('loading', 'Генерация ответа...');
-            
-            // Показываем индикатор набора
-            showTypingIndicator();
+
+            // Показываем индикатор загрузки
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading';
+            loadingDiv.innerHTML = `
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
 
             // Добавляем сообщение в историю
             conversationHistory.push({ role: 'user', content: message });
 
             try {
-                // Имитация задержки сети для демонстрации анимаций
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                updateStatus('loading', 'Генерация ответа...');
                 
                 // Формируем запрос к Vertex AI API
                 const response = await fetch(
@@ -879,11 +836,66 @@
                 const data = await response.json();
                 const assistantMessage = data.predictions[0].candidates[0].content;
 
-                // Скрываем индикатор набора
-                hideTypingIndicator();
+                // Удаляем индикатор загрузки
+                chatMessages.removeChild(loadingDiv);
 
                 // Добавляем ответ ассистента
-                addMessage('assistant', assistantMessage, true);
+                const messageElement = addMessage('assistant', assistantMessage);
+
+                // Добавляем кнопку для озвучивания ответа
+                const ttsControl = document.createElement('div');
+                ttsControl.className = 'tts-control';
+                ttsControl.innerHTML = `
+                    <button class="tts-btn" data-text="${assistantMessage.replace(/"/g, '&quot;')}">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                        Озвучить ответ
+                    </button>
+                `;
+                
+                // Добавляем кнопку для копирования
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                    </svg>
+                    Копировать
+                `;
+                
+                copyBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(assistantMessage).then(() => {
+                        copyBtn.textContent = 'Скопировано!';
+                        setTimeout(() => {
+                            copyBtn.innerHTML = `
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                </svg>
+                                Копировать
+                            `;
+                        }, 2000);
+                    });
+                });
+                
+                messageElement.appendChild(copyBtn);
+                messageElement.appendChild(ttsControl);
+                
+                // Озвучиваем ответ автоматически
+                setTimeout(() => {
+                    speakText(assistantMessage);
+                }, 500);
+
+                // Добавляем обработчик для кнопки озвучивания
+                ttsControl.querySelector('.tts-btn').addEventListener('click', (e) => {
+                    const textToSpeak = e.target.closest('.tts-btn').dataset.text;
+                    speakText(textToSpeak);
+                });
 
                 // Обновляем историю
                 conversationHistory.push({ role: 'assistant', content: assistantMessage });
@@ -892,16 +904,14 @@
 
             } catch (error) {
                 console.error('Ошибка:', error);
-                hideTypingIndicator();
+                chatMessages.removeChild(loadingDiv);
                 addMessage('assistant', `❌ Ошибка: ${error.message}`);
                 updateStatus('disconnected', 'Ошибка подключения');
-            } finally {
-                isGenerating = false;
             }
         }
 
         // Добавление сообщения в чат
-        function addMessage(role, content, enableTTS = false) {
+        function addMessage(role, content) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${role}`;
             
@@ -909,23 +919,10 @@
             const formattedContent = content.replace(/```([\s\S]*?)```/g, '<div class="message-code">$1</div>');
             messageDiv.innerHTML = formattedContent;
             
-            // Добавляем кнопку озвучивания для ответов ассистента
-            if (role === 'assistant' && enableTTS && speechSynthesis) {
-                const ttsControls = document.createElement('div');
-                ttsControls.className = 'tts-controls';
-                ttsControls.innerHTML = `
-                    <button class="tts-btn" onclick="speakText('${content.replace(/'/g, "\\'")}')">🔊 Озвучить ответ</button>
-                `;
-                messageDiv.appendChild(ttsControls);
-            }
-            
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
             
-            // Автоматически озвучиваем ответы ассистента
-            if (role === 'assistant' && enableTTS) {
-                setTimeout(() => speakText(content), 500);
-            }
+            return messageDiv;
         }
 
         // Автоподстройка высоты текстового поля
@@ -939,7 +936,7 @@
         messageInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                if (!sendBtn.disabled && !isGenerating) {
+                if (!sendBtn.disabled) {
                     sendMessage();
                 }
             }
@@ -948,27 +945,8 @@
         // Отправка по клику на кнопку
         sendBtn.addEventListener('click', sendMessage);
 
-        // Анимация появления элементов при загрузке
-        document.addEventListener('DOMContentLoaded', () => {
-            init();
-            
-            // Запускаем анимации после небольшой задержки
-            setTimeout(() => {
-                document.querySelectorAll('.animate-on-load').forEach(el => {
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                });
-            }, 100);
-        });
-
-        // Параллакс эффект для фона
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth) * 10;
-            const y = (e.clientY / window.innerHeight) * 10;
-            
-            const bg = document.querySelector('.parallax-bg');
-            bg.style.transform = `translate(${x}px, ${y}px)`;
-        });
+        // Запускаем инициализацию
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
